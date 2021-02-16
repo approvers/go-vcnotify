@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	config "../config"
+	"github.com/approvers/go-vcnotify/config"
 )
 
 func GetCurrentTimeOfJST() time.Time {

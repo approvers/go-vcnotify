@@ -1,7 +1,7 @@
 package main
 
 import (
-	setup "./src/setup"
+	"github.com/approvers/go-vcnotify/setup"
 )
 
 func main() {

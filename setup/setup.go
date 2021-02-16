@@ -8,8 +8,8 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 
-	handler "../handlers"
-	utils "../utils"
+	"github.com/approvers/go-vcnotify/handlers"
+	"github.com/approvers/go-vcnotify/utils"
 )
 
 
@@ -24,8 +24,8 @@ func Setup() {
 
 	discord.Token = utils.GetToken()
 
-	discord.AddHandler(handler.OnMessageCreate)
-	discord.AddHandler(handler.OnVoiceStateChanged)
+	discord.AddHandler(handlers.OnMessageCreate)
+	discord.AddHandler(handlers.OnVoiceStateChanged)
 
 	if err = discord.Open(); err != nil {
 		displayError := fmt.Sprintf("Error: Unknown error has occured while opening discord session.\n" +
