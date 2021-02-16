@@ -2,19 +2,15 @@ package setup
 
 import (
 	"fmt"
-	"log"
-	"os"
-	"os/signal"
-	"syscall"
-
 	"github.com/bwmarrin/discordgo"
+	"log"
 
 	"github.com/approvers/go-vcnotify/handlers"
 	"github.com/approvers/go-vcnotify/utils"
 )
 
 
-func Setup() {
+func Setup() *discordgo.Session {
 	discord, err := discordgo.New()
 
 	if err != nil {
@@ -34,13 +30,5 @@ func Setup() {
 		log.Panicf(displayError)
 	}
 
-	defer discord.Close()
-
-	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
-
-	fmt.Printf("Info: Succeed to boot at %s\n", utils.GetCurrentTimeOfJST())
-
-	<-sc
-	return
+	return discord
 }
