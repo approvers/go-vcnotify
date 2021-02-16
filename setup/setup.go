@@ -2,6 +2,7 @@ package setup
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -30,7 +31,7 @@ func Setup() {
 	if err = discord.Open(); err != nil {
 		displayError := fmt.Sprintf("Error: Unknown error has occured while opening discord session.\n" +
 			"Detail:%s\n", err)
-		panic(displayError)
+		log.Panicf(displayError)
 	}
 
 	defer discord.Close()
