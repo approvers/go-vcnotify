@@ -1,7 +1,6 @@
 package setup
 
 import (
-	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"log"
 
@@ -14,9 +13,8 @@ func Setup() *discordgo.Session {
 	discord, err := discordgo.New()
 
 	if err != nil {
-		displayError := fmt.Sprintf("Error: Unknown error has occured while creating discord session.\n" +
+		log.Panicf("Error: Unknown error has occured while creating discord session.\n" +
 			"Detail:%s\n", err)
-		panic(displayError)
 	}
 
 	discord.Token = utils.GetToken()
@@ -25,9 +23,8 @@ func Setup() *discordgo.Session {
 	discord.AddHandler(handlers.OnVoiceStateChanged)
 
 	if err = discord.Open(); err != nil {
-		displayError := fmt.Sprintf("Error: Unknown error has occured while opening discord session.\n" +
+		log.Panicf("Error: Unknown error has occured while opening discord session.\n" +
 			"Detail:%s\n", err)
-		log.Panicf(displayError)
 	}
 
 	return discord
