@@ -11,7 +11,7 @@ import (
 
 
 func main() {
-	discord := setup.Setup()
+	discord := setup.GetDiscordSession()
 	defer discord.Close()
 
 	sc := make(chan os.Signal, 1)

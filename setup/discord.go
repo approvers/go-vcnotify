@@ -10,7 +10,7 @@ import (
 )
 
 
-func Setup() *discordgo.Session {
+func GetDiscordSession() *discordgo.Session {
 	discord, err := discordgo.New()
 
 	if err != nil {
