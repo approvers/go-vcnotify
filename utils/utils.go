@@ -1,11 +1,9 @@
 package utils
 
 import (
-	"log"
-	"os"
+	b64 "encoding/base64"
+	"io/ioutil"
 	"time"
-
-	"github.com/approvers/go-vcnotify/config"
 )
 
 func GetCurrentTimeOfJST() time.Time {
@@ -17,13 +15,17 @@ func GetCurrentTimeOfJST() time.Time {
 	return nowJST
 }
 
-func GetToken() string {
-	token := os.Getenv(config.DiscordToken)
 
-	if token == "" {
-		log.Panicf("Error: Unable to get environment veriable: '%s'\n",
-			config.TokenEnvironmentName)
+func CreateFileFromB64(targetText string, outputFileName string) error {
+	decodedCredentialBytes, err := b64.StdEncoding.DecodeString(targetText)
+	if err != nil {
+		return err
 	}
 
-	return token
+	err = ioutil.WriteFile(outputFileName, decodedCredentialBytes, 0666)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

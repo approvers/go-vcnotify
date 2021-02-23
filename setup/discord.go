@@ -1,11 +1,11 @@
 package setup
 
 import (
+	"github.com/approvers/go-vcnotify/config"
 	"github.com/bwmarrin/discordgo"
 	"log"
 
 	"github.com/approvers/go-vcnotify/handlers"
-	"github.com/approvers/go-vcnotify/utils"
 )
 
 
@@ -17,7 +17,7 @@ func GetDiscordSession() *discordgo.Session {
 			"Detail:%s\n", err)
 	}
 
-	discord.Token = utils.GetToken()
+	discord.Token = config.GetEnvironmentVariable(config.DiscordTokenEnvironmentName)
 
 	discord.AddHandler(handlers.OnMessageCreate)
 	discord.AddHandler(handlers.OnVoiceStateChanged)
