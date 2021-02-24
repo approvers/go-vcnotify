@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"fmt"
+	"log"
 	"os"
 	"time"
 
@@ -21,10 +21,8 @@ func GetToken() string {
 	token := os.Getenv(config.TokenEnvironmentName)
 
 	if token == "" {
-		displayError := fmt.Sprintf("Error: Unable to get environment veriable: '%s'\n",
+		log.Panicf("Error: Unable to get environment veriable: '%s'\n",
 			config.TokenEnvironmentName)
-
-		panic(displayError)
 	}
 
 	return token
