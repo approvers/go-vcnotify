@@ -22,3 +22,5 @@ jobs:
 
     - name: Test
       run: go test -v ./...
+
+# Thanks isso (https://github.com/isso0424/discord-dice-bot)
