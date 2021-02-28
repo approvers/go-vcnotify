@@ -2,6 +2,7 @@ package setup
 
 import (
 	"context"
+	"github.com/approvers/go-vcnotify/database/table"
 	"log"
 
 	"github.com/approvers/go-vcnotify/config"
@@ -13,14 +14,14 @@ import (
 )
 
 var (
-	ctx = context.Background()
-	fileName = config.FirebaseCredentialFileName
+	ctx              = context.Background()
+	fileName         = config.FirebaseCredentialFileName
 	credentialBase64 = config.GetEnvironmentVariable(config.FirebaseCredentialB64EnvironmentName)
-	DatabaseURL = config.GetEnvironmentVariable(config.RealtimeDBURLEnvironmentName)
+	databaseURL      = config.GetEnvironmentVariable(config.RealtimeDBURLEnvironmentName)
 )
 
 
-func GetDBClient() *db.Client {
+func GetDBTable() table.FirebaseDataTable {
 	err := createCredentialFile()
 	if err != nil {
 		log.Panicf("Error: An error has occured while creating a credential from base64.\n" +
@@ -29,9 +30,10 @@ func GetDBClient() *db.Client {
 
 	opt := getOptionWithCredential()
 	app := getFirebaseApp(opt)
-	client := _getDBClient(app)
+	dbClient := getDBClient(app)
+	dbTable := table.NewRealtimeDBTable(dbClient)
 
-	return client
+	return dbTable
 }
 
 
@@ -55,7 +57,7 @@ func getOptionWithCredential() option.ClientOption {
 
 func getFirebaseApp(opt option.ClientOption) *firebase.App {
 	conf := &firebase.Config {
-		DatabaseURL: DatabaseURL,
+		DatabaseURL: databaseURL,
 	}
 
 	app, err := firebase.NewApp(ctx, conf, opt)
@@ -69,7 +71,7 @@ func getFirebaseApp(opt option.ClientOption) *firebase.App {
 }
 
 
-func _getDBClient(app *firebase.App) *db.Client {
+func getDBClient(app *firebase.App) *db.Client {
 	client, err := app.Database(ctx)
 
 	if err != nil {
