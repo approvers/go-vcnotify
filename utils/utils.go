@@ -3,17 +3,7 @@ package utils
 import (
 	b64 "encoding/base64"
 	"io/ioutil"
-	"time"
 )
-
-func GetCurrentTimeOfJST() time.Time {
-	nowUTC := time.Now().UTC()
-
-	jst := time.FixedZone("Asia/Tokyo", 9*60*60)
-	nowJST := nowUTC.In(jst)
-
-	return nowJST
-}
 
 
 func CreateFileFromB64(targetText string, outputFileName string) error {
