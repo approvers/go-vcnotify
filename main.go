@@ -1,10 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"github.com/approvers/go-vcnotify/on_close"
-	"github.com/approvers/go-vcnotify/setup"
-	"github.com/approvers/go-vcnotify/utils"
+	"github.com/approvers/go-vcnotify/internal/exit"
+	"github.com/approvers/go-vcnotify/internal/setup"
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -12,18 +11,18 @@ import (
 
 
 func main() {
-	discord := setup.GetDiscordSession()
+	discord := setup.InitializeSession()
 	defer discord.Close()
-
-	dbClient := setup.GetDBClient()
-
-	fmt.Printf("Info: Succeed to boot at %s\n", utils.GetCurrentTimeOfJST())
-
 
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
 
+	log.Println("Info: Succeed to boot!")
+
 	<-sc
-	on_close.PreClosingProcess()
+	err := exit.PreExitProcess()
+	if err != nil {
+		log.Printf("Error: Error occured while exiting. Detail: %s", err)
+	}
 	return
 }
